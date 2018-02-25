@@ -1,38 +1,12 @@
-const CANVAS_WIDTH = 640, CANVAS_HEIGHT = 640;
+import {CANVAS_WIDTH, CANVAS_HEIGHT, ctx} from './Canvas';
+import Bullet from './Bullet';
+import Block from './Block';
+import Player from './Player';
+import {rand, collides} from './utils';
 
-let canvas = document.getElementById('canvas');
-canvas.width = CANVAS_WIDTH;
-canvas.height = CANVAS_HEIGHT;
-let ctx = canvas.getContext('2d');
+const player = new Player();
 
-function Bullet(bullet) {
-    
-    bullet.w = 10;
-    bullet.h = 10;
-    bullet.color = "white";
-    bullet.yVelocity = -bullet.speed;
-    bullet.active = true;
-    
-    bullet.draw = function() {
-        ctx.fillStyle = bullet.color;
-        ctx.beginPath();
-        ctx.arc(bullet.x, bullet.y, bullet.w / 2, 0, Math.PI * 2);
-        ctx.fill();
-    };
-    
-    bullet.inBounds = function() {
-        return bullet.y >= 0;
-    };
-
-    bullet.update = function() {
-        bullet.y += bullet.yVelocity;
-        bullet.active = bullet.active && bullet.inBounds();              
-    };
-
-    return bullet;
-}
-
-var hero = {
+let hero = {
     color: "red",
     w: 100,
     h: 100,
@@ -70,43 +44,6 @@ var hero = {
     }
 };
 
-function Block(block = {}) {
-    block.w = 100;
-    block.h = 50;    
-    block.points = Math.floor(Math.random() * 15000000) + 5000000;
-    block.active = true;
-
-    block.draw = function() {
-        ctx.fillStyle = block.color;
-        ctx.fillRect(block.x, block.y, block.w, block.h);
-        ctx.font = "20px Arial";
-        let text = {
-            value: `${+(block.points / 1000000).toFixed(1)}M`,
-            color: "black",
-            textMeasures: ctx.measureText(this.value),
-            x: (block.x + block.w / 3),
-            y: (block.y + block.h / 2)
-        };            
-        ctx.fillStyle = text.color;
-        ctx.fillText(text.value, text.x, text.y);
-    };
-
-    block.alive = function() {
-        return block.points > 1000000;
-    };
-
-    block.update = function() {        
-        block.active = block.active && block.alive();
-    }
-
-
-    return block;
-}
-
-function rand(min, max) {
-    return Math.floor(Math.random() * max) + min;
-}
-
 let blocks = [];
 
 let n = 6;
@@ -128,15 +65,11 @@ var keydown = {
     space: false
 }
 
-var player = {
-    score: 0
-}
+
 
 function drawBackground() {
     ctx.fillStyle = "black";
     ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-
-
 }
 
 function drawScore() {
@@ -145,12 +78,7 @@ function drawScore() {
     ctx.fillText(`Score: ${+(player.score / 1000000).toFixed(1)}M`, 20, 50);
 }
 
-function collides(a, b) {
-    return a.x < b.x + b.w &&
-            a.x + a.w > b.x &&
-            a.y < b.y + b.h &&
-            a.y + a.h > b.h;
-}
+
 
 function handleCollisions() {
     hero.bullets.forEach( bullet => {
