@@ -1,8 +1,5 @@
-export default class Player {
-    constructor() {
-        this.score = 0;
-    }
-    set Score(score) {
-        this.score = score;
-    }
+let player = {
+    score: 0
 }
+
+export default player;

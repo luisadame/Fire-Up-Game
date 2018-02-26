@@ -1,4 +1,5 @@
 import {CANVAS_WIDTH, CANVAS_HEIGHT, ctx} from './Canvas';
+import Bullet from './Bullet';
 
 let Hero = {
     color: "red",
@@ -12,6 +13,10 @@ let Hero = {
     draw: function() {
         ctx.fillStyle = this.color;
         ctx.fillRect(this.x, this.y, this.w, this.h);
+    },
+    update: function() {
+        this.bullets.forEach(bullet => bullet.update());
+        this.bullets = this.bullets.filter( bullet => bullet.active);
     },
     shoot: function() {
         if(this.shooting) return;

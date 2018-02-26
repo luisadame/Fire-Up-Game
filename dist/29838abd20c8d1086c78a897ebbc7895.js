@@ -71,7 +71,7 @@ require = (function (modules, cache, entry) {
 
   // Override the current require with this new one
   return newRequire;
-})({8:[function(require,module,exports) {
+})({6:[function(require,module,exports) {
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -124,7 +124,7 @@ function Bullet(bullet) {
 
     return bullet;
 }
-},{"./Canvas":8}],12:[function(require,module,exports) {
+},{"./Canvas":6}],5:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -167,36 +167,7 @@ function Block() {
 
     return block;
 }
-},{"./Canvas":8}],13:[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var Player = function () {
-    function Player() {
-        _classCallCheck(this, Player);
-
-        this.score = 0;
-    }
-
-    _createClass(Player, [{
-        key: "Score",
-        set: function set(score) {
-            this.score = score;
-        }
-    }]);
-
-    return Player;
-}();
-
-exports.default = Player;
-},{}],14:[function(require,module,exports) {
+},{"./Canvas":6}],24:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -211,8 +182,60 @@ function rand(min, max) {
 function collides(a, b) {
     return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.h;
 }
-},{}],2:[function(require,module,exports) {
+},{}],10:[function(require,module,exports) {
 'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _Canvas = require('./Canvas');
+
+var _Block = require('./Block');
+
+var _Block2 = _interopRequireDefault(_Block);
+
+var _utils = require('./utils');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Blocks = {
+    data: [],
+    init: function init() {
+        var n = 6;
+        var blockWidth = _Canvas.CANVAS_WIDTH / n;
+
+        for (var i = 0; i < n; i++) {
+            Blocks.data.push(new _Block2.default({
+                color: 'rgb(' + (0, _utils.rand)(0, 255) + ', ' + (0, _utils.rand)(0, 255) + ', ' + (0, _utils.rand)(0, 255) + ')',
+                w: blockWidth,
+                x: blockWidth * i + 1,
+                y: 50
+            }));
+        }
+    },
+    update: function update() {
+        Blocks.data.forEach(function (block) {
+            return block.update();
+        });
+        Blocks.data = Blocks.data.filter(function (block) {
+            return block.active;
+        });
+    },
+    draw: function draw() {
+        Blocks.data.forEach(function (block) {
+            return block.draw();
+        });
+    }
+};
+
+exports.default = Blocks;
+},{"./Canvas":6,"./Block":5,"./utils":24}],8:[function(require,module,exports) {
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 
 var _Canvas = require('./Canvas');
 
@@ -220,21 +243,9 @@ var _Bullet = require('./Bullet');
 
 var _Bullet2 = _interopRequireDefault(_Bullet);
 
-var _Block = require('./Block');
-
-var _Block2 = _interopRequireDefault(_Block);
-
-var _Player = require('./Player');
-
-var _Player2 = _interopRequireDefault(_Player);
-
-var _utils = require('./utils');
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var player = new _Player2.default();
-
-var hero = {
+var Hero = {
     color: "red",
     w: 100,
     h: 100,
@@ -246,6 +257,14 @@ var hero = {
     draw: function draw() {
         _Canvas.ctx.fillStyle = this.color;
         _Canvas.ctx.fillRect(this.x, this.y, this.w, this.h);
+    },
+    update: function update() {
+        this.bullets.forEach(function (bullet) {
+            return bullet.update();
+        });
+        this.bullets = this.bullets.filter(function (bullet) {
+            return bullet.active;
+        });
     },
     shoot: function shoot() {
         var _this = this;
@@ -274,112 +293,234 @@ var hero = {
     }
 };
 
-var blocks = [];
+exports.default = Hero;
+},{"./Canvas":6,"./Bullet":4}],7:[function(require,module,exports) {
+"use strict";
 
-var n = 6;
-var blockWidth = _Canvas.CANVAS_WIDTH / n;
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var player = {
+    score: 0
+};
 
-for (var i = 0; i < n; i++) {
-    blocks.push(new _Block2.default({
-        color: 'rgb(' + (0, _utils.rand)(0, 255) + ', ' + (0, _utils.rand)(0, 255) + ', ' + (0, _utils.rand)(0, 255) + ')',
-        w: blockWidth,
-        x: blockWidth * i + 1,
-        y: 50
-    }));
-}
+exports.default = player;
+},{}],9:[function(require,module,exports) {
+'use strict';
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _Canvas = require('./Canvas');
+
+var _Player = require('./Player');
+
+var _Player2 = _interopRequireDefault(_Player);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Draw = function () {
+    function Draw() {
+        _classCallCheck(this, Draw);
+    }
+
+    _createClass(Draw, null, [{
+        key: 'background',
+        value: function background() {
+            _Canvas.ctx.fillStyle = "black";
+            _Canvas.ctx.fillRect(0, 0, _Canvas.CANVAS_WIDTH, _Canvas.CANVAS_HEIGHT);
+        }
+    }, {
+        key: 'score',
+        value: function score() {
+            _Canvas.ctx.fillStyle = "white";
+            _Canvas.ctx.font = "Arial 20px";
+            _Canvas.ctx.fillText('Score: ' + +(_Player2.default.score / 1000000).toFixed(1) + 'M', 20, 50);
+        }
+    }]);
+
+    return Draw;
+}();
+
+exports.default = Draw;
+},{"./Canvas":6,"./Player":7}],11:[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 var keydown = {
     left: false,
     right: false,
     space: false
 };
 
-function drawBackground() {
-    _Canvas.ctx.fillStyle = "black";
-    _Canvas.ctx.fillRect(0, 0, _Canvas.CANVAS_WIDTH, _Canvas.CANVAS_HEIGHT);
-}
+exports.default = keydown;
+},{}],12:[function(require,module,exports) {
+"use strict";
 
-function drawScore() {
-    _Canvas.ctx.fillStyle = "white";
-    _Canvas.ctx.font = "Arial 20px";
-    _Canvas.ctx.fillText('Score: ' + +(player.score / 1000000).toFixed(1) + 'M', 20, 50);
-}
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.addEventListeners = addEventListeners;
 
-function handleCollisions() {
-    hero.bullets.forEach(function (bullet) {
-        blocks.forEach(function (block) {
-            if ((0, _utils.collides)(bullet, block)) {
-                bullet.active = false;
-                block.points -= 10000;
-                player.score += 10000;
-            }
-        });
-    });
-}
+var _Keydown = require("./Keydown");
 
-function update() {
-    if (keydown.left) {
-        hero.moveLeft();
-    }
+var _Keydown2 = _interopRequireDefault(_Keydown);
 
-    if (keydown.right) {
-        hero.moveRight();
-    }
-
-    if (keydown.space) {
-        hero.shoot();
-    }
-
-    hero.bullets.forEach(function (bullet) {
-        return bullet.update();
-    });
-    hero.bullets = hero.bullets.filter(function (bullet) {
-        return bullet.active;
-    });
-    blocks.forEach(function (block) {
-        return block.update();
-    });
-    blocks = blocks.filter(function (block) {
-        return block.active;
-    });
-    handleCollisions();
-}
-
-function draw() {
-    _Canvas.ctx.clearRect(0, 0, _Canvas.CANVAS_WIDTH, _Canvas.CANVAS_HEIGHT);
-    drawBackground();
-    drawScore();
-    hero.draw();
-    hero.bullets.forEach(function (bullet) {
-        return bullet.draw();
-    });
-    blocks.forEach(function (block) {
-        return block.draw();
-    });
-}
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function handleControls(e) {
-    if (e.keyCode === 37) keydown.left = e.type === "keydown" ? true : false;
-    if (e.keyCode === 39) keydown.right = e.type === "keydown" ? true : false;
-    if (e.keyCode === 32) keydown.space = e.type === "keydown" ? true : false;
+    if (e.keyCode === 37) _Keydown2.default.left = e.type === "keydown" ? true : false;
+    if (e.keyCode === 39) _Keydown2.default.right = e.type === "keydown" ? true : false;
+    if (e.keyCode === 32) _Keydown2.default.space = e.type === "keydown" ? true : false;
 }
 
 function addEventListeners() {
     window.addEventListener('keydown', handleControls);
     window.addEventListener('keyup', handleControls);
 }
+},{"./Keydown":11}],13:[function(require,module,exports) {
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _Hero = require('./Hero');
+
+var _Hero2 = _interopRequireDefault(_Hero);
+
+var _Blocks = require('./Blocks');
+
+var _Blocks2 = _interopRequireDefault(_Blocks);
+
+var _Player = require('./Player');
+
+var _Player2 = _interopRequireDefault(_Player);
+
+var _utils = require('./utils');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Collisions = function () {
+    function Collisions() {
+        _classCallCheck(this, Collisions);
+    }
+
+    _createClass(Collisions, null, [{
+        key: 'handle',
+        value: function handle() {
+            _Hero2.default.bullets.forEach(function (bullet) {
+                _Blocks2.default.data.forEach(function (block) {
+                    if ((0, _utils.collides)(bullet, block)) {
+                        bullet.active = false;
+                        block.points -= 10000;
+                        _Player2.default.score += 10000;
+                    }
+                });
+            });
+        }
+    }]);
+
+    return Collisions;
+}();
+
+exports.default = Collisions;
+},{"./Hero":8,"./Blocks":10,"./Player":7,"./utils":24}],2:[function(require,module,exports) {
+'use strict';
+
+var _Canvas = require('./Canvas');
+
+var _Bullet = require('./Bullet');
+
+var _Bullet2 = _interopRequireDefault(_Bullet);
+
+var _Block = require('./Block');
+
+var _Block2 = _interopRequireDefault(_Block);
+
+var _Blocks = require('./Blocks');
+
+var _Blocks2 = _interopRequireDefault(_Blocks);
+
+var _Hero = require('./Hero');
+
+var _Hero2 = _interopRequireDefault(_Hero);
+
+var _Player = require('./Player');
+
+var _Player2 = _interopRequireDefault(_Player);
+
+var _Draw = require('./Draw');
+
+var _Draw2 = _interopRequireDefault(_Draw);
+
+var _Keydown = require('./Keydown');
+
+var _Keydown2 = _interopRequireDefault(_Keydown);
+
+var _Controls = require('./Controls');
+
+var _Collisions = require('./Collisions');
+
+var _Collisions2 = _interopRequireDefault(_Collisions);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function setup() {
+    _Blocks2.default.init();
+}
+
+function update() {
+    if (_Keydown2.default.left) {
+        _Hero2.default.moveLeft();
+    }
+
+    if (_Keydown2.default.right) {
+        _Hero2.default.moveRight();
+    }
+
+    if (_Keydown2.default.space) {
+        _Hero2.default.shoot();
+    }
+
+    _Hero2.default.update();
+    _Collisions2.default.handle();
+    _Blocks2.default.update();
+}
+
+function draw() {
+    _Canvas.ctx.clearRect(0, 0, _Canvas.CANVAS_WIDTH, _Canvas.CANVAS_HEIGHT);
+    _Draw2.default.background();
+    _Draw2.default.score();
+    _Hero2.default.draw();
+    _Hero2.default.bullets.forEach(function (bullet) {
+        return bullet.draw();
+    });
+    _Blocks2.default.draw();
+}
 
 // game loop
-
 function loop() {
     update();
     draw();
     requestAnimationFrame(loop);
 }
 
+setup();
+(0, _Controls.addEventListeners)();
 requestAnimationFrame(loop);
-addEventListeners();
-},{"./Canvas":8,"./Bullet":4,"./Block":12,"./Player":13,"./utils":14}],15:[function(require,module,exports) {
+},{"./Canvas":6,"./Bullet":4,"./Block":5,"./Blocks":10,"./Hero":8,"./Player":7,"./Draw":9,"./Keydown":11,"./Controls":12,"./Collisions":13}],26:[function(require,module,exports) {
 
 var global = (1, eval)('this');
 var OldModule = module.bundle.Module;
@@ -401,7 +542,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = '' || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + '35945' + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + '34737' + '/');
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
 
@@ -502,5 +643,5 @@ function hmrAccept(bundle, id) {
     return hmrAccept(global.require, id);
   });
 }
-},{}]},{},[15,2])
+},{}]},{},[26,2])
 //# sourceMappingURL=/dist/29838abd20c8d1086c78a897ebbc7895.map

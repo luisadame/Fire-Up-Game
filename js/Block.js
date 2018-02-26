@@ -29,6 +29,5 @@ export default function Block(block = {}) {
         block.active = block.active && block.alive();
     }
 
-
     return block;
 }
