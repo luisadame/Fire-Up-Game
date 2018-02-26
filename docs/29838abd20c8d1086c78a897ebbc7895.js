@@ -88,7 +88,7 @@ var ctx = canvas.getContext('2d');
 exports.CANVAS_WIDTH = CANVAS_WIDTH;
 exports.CANVAS_HEIGHT = CANVAS_HEIGHT;
 exports.ctx = ctx;
-},{}],4:[function(require,module,exports) {
+},{}],15:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -124,7 +124,7 @@ function Bullet(bullet) {
 
     return bullet;
 }
-},{"./Canvas":6}],5:[function(require,module,exports) {
+},{"./Canvas":6}],8:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -167,7 +167,7 @@ function Block() {
 
     return block;
 }
-},{"./Canvas":6}],24:[function(require,module,exports) {
+},{"./Canvas":6}],26:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -182,7 +182,7 @@ function rand(min, max) {
 function collides(a, b) {
     return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.h;
 }
-},{}],10:[function(require,module,exports) {
+},{}],7:[function(require,module,exports) {
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -230,7 +230,7 @@ var Blocks = {
 };
 
 exports.default = Blocks;
-},{"./Canvas":6,"./Block":5,"./utils":24}],8:[function(require,module,exports) {
+},{"./Canvas":6,"./Block":8,"./utils":26}],10:[function(require,module,exports) {
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -294,7 +294,7 @@ var Hero = {
 };
 
 exports.default = Hero;
-},{"./Canvas":6,"./Bullet":4}],7:[function(require,module,exports) {
+},{"./Canvas":6,"./Bullet":15}],9:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -305,7 +305,7 @@ var player = {
 };
 
 exports.default = player;
-},{}],9:[function(require,module,exports) {
+},{}],11:[function(require,module,exports) {
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -348,7 +348,7 @@ var Draw = function () {
 }();
 
 exports.default = Draw;
-},{"./Canvas":6,"./Player":7}],11:[function(require,module,exports) {
+},{"./Canvas":6,"./Player":9}],12:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -361,7 +361,7 @@ var keydown = {
 };
 
 exports.default = keydown;
-},{}],12:[function(require,module,exports) {
+},{}],13:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -385,7 +385,7 @@ function addEventListeners() {
     window.addEventListener('keydown', handleControls);
     window.addEventListener('keyup', handleControls);
 }
-},{"./Keydown":11}],13:[function(require,module,exports) {
+},{"./Keydown":12}],14:[function(require,module,exports) {
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -436,7 +436,7 @@ var Collisions = function () {
 }();
 
 exports.default = Collisions;
-},{"./Hero":8,"./Blocks":10,"./Player":7,"./utils":24}],2:[function(require,module,exports) {
+},{"./Hero":10,"./Blocks":7,"./Player":9,"./utils":26}],4:[function(require,module,exports) {
 'use strict';
 
 var _Canvas = require('./Canvas');
@@ -512,6 +512,7 @@ function draw() {
 
 // game loop
 function loop() {
+    // FIXME: the draw function it's called before the update. Use asynchronous methods.
     update();
     draw();
     requestAnimationFrame(loop);
@@ -520,7 +521,7 @@ function loop() {
 setup();
 (0, _Controls.addEventListeners)();
 requestAnimationFrame(loop);
-},{"./Canvas":6,"./Bullet":4,"./Block":5,"./Blocks":10,"./Hero":8,"./Player":7,"./Draw":9,"./Keydown":11,"./Controls":12,"./Collisions":13}],26:[function(require,module,exports) {
+},{"./Canvas":6,"./Bullet":15,"./Block":8,"./Blocks":7,"./Hero":10,"./Player":9,"./Draw":11,"./Keydown":12,"./Controls":13,"./Collisions":14}],28:[function(require,module,exports) {
 
 var global = (1, eval)('this');
 var OldModule = module.bundle.Module;
@@ -542,7 +543,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = '' || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + '34737' + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + '44479' + '/');
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
 
@@ -643,5 +644,5 @@ function hmrAccept(bundle, id) {
     return hmrAccept(global.require, id);
   });
 }
-},{}]},{},[26,2])
-//# sourceMappingURL=/dist/29838abd20c8d1086c78a897ebbc7895.map
+},{}]},{},[28,4])
+//# sourceMappingURL=/docs/29838abd20c8d1086c78a897ebbc7895.map
