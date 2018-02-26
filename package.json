@@ -5,6 +5,8 @@
     "parcel-bundler": "^1.6.2"
   },
   "scripts": {
-    "start": "parcel -d ./docs index.html"
+    "start": "parcel index.html",
+    "help": "parcel --help",
+    "prod": "parcel build index.html --no-cache -d ./docs --public-url ./"
   }
 }
