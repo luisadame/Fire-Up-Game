@@ -1,13 +1,11 @@
-import { CANVAS_WIDTH, CANVAS_HEIGHT, ctx } from './Canvas';
-import Bullet from './Bullet';
-import Block from './Block';
+import { resize, CANVAS_WIDTH, CANVAS_HEIGHT, ctx } from './Canvas';
 import Blocks from './Blocks';
 import Hero from './Hero';
-import player from './Player';
 import Draw from './Draw';
 import keydown from './Keydown';
-import { addEventListeners } from './Controls';
 import Collisions from './Collisions';
+import { addEventListeners } from './Controls';
+import player from './Player';
 
 function setup() {
     Blocks.init();
@@ -37,14 +35,26 @@ function draw() {
     Draw.score();
 }
 
-
 // game loop
 function loop() {
     draw();
     update();
-    requestAnimationFrame(loop);
+    if (player.lost) {
+        cancelAnimationFrame(window.game);
+        alert('You\'ve lost!');
+    } else {
+        window.game = requestAnimationFrame(loop);
+    }
 }
 
 setup();
-addEventListeners();
-requestAnimationFrame(loop);
+function init(e) {
+    console.log('Starting game!');
+    addEventListeners();
+    loop();
+    window.addEventListener('resize', resize);
+    e.target.style.display = "none";
+}
+
+const btn = document.getElementById('start');
+btn.addEventListener('click', init);

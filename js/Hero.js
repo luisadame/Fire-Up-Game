@@ -7,28 +7,31 @@ let Hero = {
     h: 100,
     x: CANVAS_WIDTH / 2,
     y: CANVAS_HEIGHT - 110,
-    speed: 10,
+    speed: 5,
     bullets: [],
-    shooting: false,
+    shot: 0,
+    shootingSpeed: 700,
+    lost: false,
     draw: function () {
         ctx.fillStyle = this.color;
         ctx.fillRect(this.x, this.y, this.w, this.h);
     },
     update: function () {
         this.draw();
+        this.shoot();
         this.bullets.forEach(bullet => bullet.draw());
         this.bullets.forEach(bullet => bullet.update());
         this.bullets = this.bullets.filter(bullet => bullet.active);
     },
     shoot: function () {
-        if (this.shooting) return;
-        this.shooting = setInterval(() => {
+        if (performance.now() - this.shot >= this.shootingSpeed) {
             this.bullets.push(new Bullet({
                 speed: 5,
                 x: this.x + this.w / 2,
                 y: this.y
             }));
-        }, 700);
+            this.shot = performance.now();
+        }
     },
     moveLeft: function () {
         if (this.x > 0) {
