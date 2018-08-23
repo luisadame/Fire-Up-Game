@@ -33,6 +33,7 @@ function draw() {
     ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
     Draw.background();
     Draw.score();
+    Draw.level();
 }
 
 // game loop
@@ -41,7 +42,7 @@ function loop() {
     update();
     if (player.lost) {
         cancelAnimationFrame(window.game);
-        alert('You\'ve lost!');
+        $restart.classList.remove('hidden');
     } else {
         window.game = requestAnimationFrame(loop);
     }
@@ -53,8 +54,19 @@ function init(e) {
     addEventListeners();
     loop();
     window.addEventListener('resize', resize);
-    e.target.style.display = "none";
+    $btn.classList.add('hidden');
 }
 
-const btn = document.getElementById('start');
-btn.addEventListener('click', init);
+function restart() {
+    Hero.reset();
+    player.reset();
+    $restart.classList.add('hidden');
+    setup();
+    loop();
+}
+
+const $btn = document.getElementById('start');
+const $restart = document.querySelector('.restart');
+const $restart__btn = $restart.querySelector('.restart__btn');
+$btn.addEventListener('click', init);
+$restart__btn.addEventListener('click', restart);

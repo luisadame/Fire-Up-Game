@@ -1,5 +1,6 @@
 import { CANVAS_WIDTH, CANVAS_HEIGHT, ctx } from './Canvas';
 import player from './Player';
+import Hero from './Hero';
 
 export default class Draw {
 
@@ -13,6 +14,13 @@ export default class Draw {
         ctx.fillStyle = "white";
         ctx.font = "Arial 20px";
         ctx.fillText(`Score: ${player.score}`, 20, 50);
+    }
+
+    static level() {
+        ctx.textAlign = "start";
+        ctx.fillStyle = "white";
+        ctx.font = "Arial 20px";
+        ctx.fillText(`Level: ${Math.floor(Hero.level)}`, 20, 75);
     }
 
 }

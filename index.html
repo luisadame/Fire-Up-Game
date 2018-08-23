@@ -15,6 +15,7 @@
             justify-content: center;
             min-height: 100vh;
             background: #111;
+            font-family: Arial, Helvetica, sans-serif;
         }
 
         #start {
@@ -23,6 +24,23 @@
             width: 10em;
             border-radius: 2px;
             position: relative;
+        }
+
+        .restart {
+            background: rgba(255, 255, 255, .9);
+            padding: 1em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .hidden {
+            position: absolute !important;
+            visibility: hidden;
+            opacity: 0;
         }
 
         canvas {
@@ -34,6 +52,10 @@
 <body>
     <canvas id="canvas"></canvas>
     <button id="start">Start game</button>
+    <div class="restart hidden">
+        <h2>You lost!</h2>
+        <button class="restart__btn">Restart game?</button>
+    </div>
     <script src="./js/main.js"></script>
 </body>
 
