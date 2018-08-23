@@ -2,7 +2,6 @@ export function rand(min, max) {
     return Math.floor(Math.random() * max) + min;
 }
 
-//
 export function collides(a, b) {
     return a.x < b.x + b.w &&
         a.x + a.w > b.x &&

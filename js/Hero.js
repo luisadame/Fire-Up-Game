@@ -10,8 +10,10 @@ let Hero = {
     speed: 5,
     bullets: [],
     shot: 0,
-    shootingSpeed: 700,
-    lost: false,
+    level: 1,
+    shootingSpeed: function () {
+        return 705 - (this.level * 5);
+    },
     draw: function () {
         ctx.fillStyle = this.color;
         ctx.fillRect(this.x, this.y, this.w, this.h);
@@ -24,7 +26,7 @@ let Hero = {
         this.bullets = this.bullets.filter(bullet => bullet.active);
     },
     shoot: function () {
-        if (performance.now() - this.shot >= this.shootingSpeed) {
+        if (performance.now() - this.shot >= this.shootingSpeed()) {
             this.bullets.push(new Bullet({
                 speed: 5,
                 x: this.x + this.w / 2,
@@ -45,6 +47,10 @@ let Hero = {
     },
     inBounds: function () {
         return this.x > 0 && this.x < CANVAS_WIDTH - this.w;
+    },
+    reset: function () {
+        this.level = 1;
+        this.shot = 0;
     }
 };
 

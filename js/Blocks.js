@@ -5,6 +5,7 @@ import { rand } from './utils';
 let Blocks = {
     data: [],
     init: () => {
+        Blocks.data = [];
         let width = 100;
         let n = Math.floor(CANVAS_WIDTH / width);
         let remainder = (CANVAS_WIDTH % width) / n;
@@ -21,7 +22,7 @@ let Blocks = {
         this.draw();
         Blocks.data.forEach(block => block.update());
         Blocks.data = Blocks.data.filter(block => block.active);
-        console.log(Blocks.data.length);
+        if (Blocks.data.length == 0) this.init();
     },
     draw: () => {
         Blocks.data.forEach(block => block.draw());
