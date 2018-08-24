@@ -21,12 +21,12 @@
         #start {
             border: none;
             padding: 1em;
-            width: 10em;
+            width: 100%;
             border-radius: 2px;
             position: relative;
         }
 
-        .restart {
+        #wall {
             background: rgba(255, 255, 255, .9);
             padding: 1em;
             display: flex;
@@ -35,6 +35,11 @@
             flex-direction: column;
             border-radius: 4px;
             position: relative;
+        }
+
+        .playerName {
+            width: 100%;
+            margin-bottom: 1em;
         }
 
         .hidden {
@@ -51,10 +56,16 @@
 
 <body>
     <canvas id="canvas"></canvas>
-    <button id="start">Start game</button>
-    <div class="restart hidden">
-        <h2>You lost!</h2>
-        <button class="restart__btn">Restart game?</button>
+    <div id="wall">
+        <h2>{{ message }}</h2>
+        <div class="playerName">
+            <label>
+                <h3>Your name:</h3>
+                <input v-model="player.name" type="text" class="playerName__input" max="30">
+            </label>
+        </div>
+        <button :disabled="!validName">Start game</button>
+        <button class="restart__btn hidden">Restart game?</button>
     </div>
     <script src="./js/main.js"></script>
 </body>

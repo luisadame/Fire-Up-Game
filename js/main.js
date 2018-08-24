@@ -6,6 +6,7 @@ import keydown from './Keydown';
 import Collisions from './Collisions';
 import { addEventListeners } from './Controls';
 import player from './Player';
+import Vue from 'vue/dist/vue.esm';
 
 function setup() {
     Blocks.init();
@@ -76,8 +77,15 @@ function restart() {
     loop();
 }
 
-const $btn = document.getElementById('start');
-const $restart = document.querySelector('.restart');
-const $restart__btn = $restart.querySelector('.restart__btn');
-$btn.addEventListener('click', init);
-$restart__btn.addEventListener('click', restart);
+new Vue({
+    el: '#wall',
+    data: {
+        message: 'Welcome to Fire Up Game!',
+        player: player
+    },
+    methods: {
+        validName: function () {
+            return !!player.name;
+        }
+    }
+})
