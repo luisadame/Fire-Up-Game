@@ -18,7 +18,7 @@
             font-family: Arial, Helvetica, sans-serif;
         }
 
-        #start {
+        .btn {
             border: none;
             padding: 1em;
             width: 100%;
@@ -48,6 +48,10 @@
             opacity: 0;
         }
 
+        [v-cloak] {
+            display: none;
+        }
+
         canvas {
             position: absolute;
         }
@@ -56,7 +60,7 @@
 
 <body>
     <canvas id="canvas"></canvas>
-    <div id="wall">
+    <div id="wall" v-show="!player.playing" v-cloak>
         <h2>{{ message }}</h2>
         <div class="playerName">
             <label>
@@ -64,8 +68,8 @@
                 <input v-model="player.name" type="text" class="playerName__input" max="30">
             </label>
         </div>
-        <button :disabled="!validName">Start game</button>
-        <button class="restart__btn hidden">Restart game?</button>
+        <button class="btn" :disabled="!validName()" @click="init()">Start game</button>
+        <button class="btn hidden">Restart game?</button>
     </div>
     <script src="./js/main.js"></script>
 </body>

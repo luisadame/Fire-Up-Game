@@ -8,6 +8,11 @@ import { addEventListeners } from './Controls';
 import player from './Player';
 import Vue from 'vue/dist/vue.esm';
 
+let game = {
+    message: "Welcome to Fire Up Game!",
+    player: player
+};
+
 function setup() {
     Blocks.init();
 }
@@ -38,12 +43,13 @@ function draw() {
 }
 
 function setRecord() {
-    if (saved = localStorage.getItem('maxScore')) {
+    let saved;
+    if (saved = localStorage.getItem(player.name)) {
         if (player.score > saved) {
-            localStorage.setItem('maxScore', player.score);
+            localStorage.setItem(player.name, player.score);
         }
     } else {
-        localStorage.setItem('maxScore', player.score);
+        localStorage.setItem(player.name, player.score);
     }
 }
 
@@ -53,7 +59,8 @@ function loop() {
     update();
     if (player.lost) {
         cancelAnimationFrame(window.game);
-        $restart.classList.remove('hidden');
+        game.message = "You lost!";
+        player.playing = false;
         setRecord();
     } else {
         window.game = requestAnimationFrame(loop);
@@ -66,26 +73,24 @@ function init(e) {
     addEventListeners();
     loop();
     window.addEventListener('resize', resize);
-    $btn.classList.add('hidden');
+    player.playing = true;
 }
 
 function restart() {
     Hero.reset();
     player.reset();
-    $restart.classList.add('hidden');
     setup();
     loop();
 }
 
 new Vue({
     el: '#wall',
-    data: {
-        message: 'Welcome to Fire Up Game!',
-        player: player
-    },
+    data: game,
     methods: {
         validName: function () {
             return !!player.name;
-        }
+        },
+        init: init,
+        restart: restart
     }
 })
