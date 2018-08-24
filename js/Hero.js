@@ -12,7 +12,9 @@ let Hero = {
     shot: 0,
     level: 1,
     shootingSpeed: function () {
-        return 705 - (this.level * 5);
+        let v = 705 - (this.level * 10);
+        console.log(v);
+        return v;
     },
     draw: function () {
         ctx.fillStyle = this.color;
@@ -28,7 +30,7 @@ let Hero = {
     shoot: function () {
         if (performance.now() - this.shot >= this.shootingSpeed()) {
             this.bullets.push(new Bullet({
-                speed: 5,
+                speed: 5 + Hero.level,
                 x: this.x + this.w / 2,
                 y: this.y
             }));

@@ -36,6 +36,16 @@ function draw() {
     Draw.level();
 }
 
+function setRecord() {
+    if (saved = localStorage.getItem('maxScore')) {
+        if (player.score > saved) {
+            localStorage.setItem('maxScore', player.score);
+        }
+    } else {
+        localStorage.setItem('maxScore', player.score);
+    }
+}
+
 // game loop
 function loop() {
     draw();
@@ -43,6 +53,7 @@ function loop() {
     if (player.lost) {
         cancelAnimationFrame(window.game);
         $restart.classList.remove('hidden');
+        setRecord();
     } else {
         window.game = requestAnimationFrame(loop);
     }

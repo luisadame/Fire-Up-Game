@@ -1,10 +1,11 @@
 import { ctx, CANVAS_HEIGHT } from './Canvas';
+import { rand } from './utils';
 import Hero from './Hero';
 
 export default function Block(block = {}) {
     block.w = 100;
     block.h = 50;
-    block.points = Math.floor(Math.random() * (Hero.level * 10) + 1);
+    block.points = Math.floor(Math.random() * (Hero.level * rand(2, 6)) + 1);
     block.active = true;
 
     block.draw = function () {
@@ -33,10 +34,10 @@ export default function Block(block = {}) {
 
     block.update = function () {
         block.active = block.active && block.alive() && block.inBounds();
-        block.y += 1;
-        if (!block.active) {
+        if (!block.alive()) {
             Hero.level += 0.1;
         }
+        block.y += 1;
     }
 
     return block;
