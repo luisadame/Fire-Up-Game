@@ -10,6 +10,7 @@ import Vue from 'vue/dist/vue.esm';
 
 let game = {
     message: "Welcome to Fire Up Game!",
+    showingScores: false,
     player: player
 };
 
@@ -61,6 +62,7 @@ function loop() {
         cancelAnimationFrame(window.game);
         game.message = "You lost!";
         player.playing = false;
+        player.lost = true;
         setRecord();
     } else {
         window.game = requestAnimationFrame(loop);
@@ -91,6 +93,29 @@ new Vue({
             return !!player.name;
         },
         init: init,
-        restart: restart
+        restart: restart,
+        getMaxScore: function () {
+            return localStorage.getItem(this.player.name);
+        },
+        getAllScores: function () {
+            let scores = [],
+                names = Object.keys(localStorage);
+            for (let name of names) {
+                scores.push({
+                    name: name,
+                    score: localStorage.getItem(name)
+                });
+            }
+            return scores;
+        },
+        showScores: function () {
+            if (this.showingScores) {
+                this.message = "Welcome to Fire Up Game!";
+                this.showingScores = false;
+            } else {
+                this.message = "Global Scores";
+                this.showingScores = true;
+            }
+        }
     }
 })

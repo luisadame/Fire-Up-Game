@@ -6,6 +6,7 @@ let player = {
     reset: function () {
         this.score = 0;
         this.lost = false;
+        this.playing = true;
     }
 }
 

@@ -24,6 +24,7 @@
             width: 100%;
             border-radius: 2px;
             position: relative;
+            margin-bottom: 5px;
         }
 
         #wall {
@@ -35,6 +36,7 @@
             flex-direction: column;
             border-radius: 4px;
             position: relative;
+            width: 350px;
         }
 
         .playerName {
@@ -49,11 +51,21 @@
         }
 
         [v-cloak] {
-            display: none;
+            position: absolute !important;
+            visibility: hidden;
+            opacity: 0;
+        }
+
+        .wall__info {
+            width: 100%;
         }
 
         canvas {
             position: absolute;
+        }
+
+        .scores {
+            width: 100%;
         }
     </style>
 </head>
@@ -62,14 +74,35 @@
     <canvas id="canvas"></canvas>
     <div id="wall" v-show="!player.playing" v-cloak>
         <h2>{{ message }}</h2>
-        <div class="playerName">
-            <label>
-                <h3>Your name:</h3>
-                <input v-model="player.name" type="text" class="playerName__input" max="30">
-            </label>
+        <div class="wall__info" v-if="!showingScores">
+            <div v-show="!player.lost" class="playerName">
+                <label>
+                    <h3>Your name:</h3>
+                    <input v-model="player.name" type="text" class="playerName__input" max="30">
+                </label>
+            </div>
+            <button v-show="!player.lost" class="btn" :disabled="!validName()" @click="init()">Start game</button>
+            <div v-show="player.lost" class="playerScore">
+                <p>Max. Score: {{getMaxScore()}}</p>
+                <p>Current Score: {{player.score}}</p>
+            </div>
+            <button @click="restart()" v-show="player.lost" class="btn">Restart game?</button>
         </div>
-        <button class="btn" :disabled="!validName()" @click="init()">Start game</button>
-        <button class="btn hidden">Restart game?</button>
+        <transition name="slide">
+            <table border="1" class="scores" v-if="showingScores">
+                <tr>
+                    <td>Player</td>
+                    <td>Score</td>
+                </tr>
+                <tr v-for="player in getAllScores()">
+                    <td>{{player.name}}</td>
+                    <td>{{player.score}}</td>
+                </tr>
+            </table>
+        </transition>
+        <button class="btn" @click="showScores()">
+            {{showingScores ? 'Go back' : 'Show all scores'}}
+        </button>
     </div>
     <script src="./js/main.js"></script>
 </body>

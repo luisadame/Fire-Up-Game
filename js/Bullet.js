@@ -21,7 +21,7 @@ export default function Bullet(bullet) {
 
     bullet.update = function() {
         bullet.y += bullet.yVelocity;
-        bullet.active = bullet.active && bullet.inBounds();              
+        bullet.active = bullet.active && bullet.inBounds();
     };
 
     return bullet;
