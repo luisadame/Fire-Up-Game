@@ -13,32 +13,36 @@
     <canvas id="canvas"></canvas>
     <div id="wall" v-show="!player.playing" v-cloak>
         <h2>{{ message }}</h2>
-        <div class="wall__info" v-if="!showingScores">
-            <div v-show="!player.lost" class="playerName">
-                <label>
-                    <h3>Your name:</h3>
-                    <input v-model="player.name" type="text" class="playerName__input" max="30">
-                </label>
-            </div>
-            <button v-show="!player.lost" class="btn" :disabled="!validName()" @click="init()">Start game</button>
-            <div v-show="player.lost" class="playerScore">
-                <p>Max. Score: {{getMaxScore()}}</p>
-                <p>Current Score: {{player.score}}</p>
-            </div>
-            <button @click="restart()" v-show="player.lost" class="btn">Restart game?</button>
+        <div class="container">
+            <transition name="slide-left">
+                <div class="wall__info" v-show="!showingScores">
+                    <div v-show="!player.lost" class="playerName">
+                        <label>
+                            <h3>Your name:</h3>
+                            <input v-model="player.name" type="text" class="playerName__input" max="30">
+                        </label>
+                    </div>
+                    <button v-show="!player.lost" class="btn" :disabled="!validName()" @click="init()">Start game</button>
+                    <div v-show="player.lost" class="playerScore">
+                        <p>Max. Score: {{getMaxScore()}}</p>
+                        <p>Current Score: {{player.score}}</p>
+                    </div>
+                    <button @click="restart()" v-show="player.lost" class="btn">Restart game?</button>
+                </div>
+            </transition>
+            <transition name="slide-right">
+                <table border="1" class="scores" v-show="showingScores">
+                    <tr>
+                        <td>Player</td>
+                        <td>Score</td>
+                    </tr>
+                    <tr v-for="player in getAllScores()">
+                        <td>{{player.name}}</td>
+                        <td>{{player.score}}</td>
+                    </tr>
+                </table>
+            </transition>
         </div>
-        <transition name="slide">
-            <table border="1" class="scores" v-if="showingScores">
-                <tr>
-                    <td>Player</td>
-                    <td>Score</td>
-                </tr>
-                <tr v-for="player in getAllScores()">
-                    <td>{{player.name}}</td>
-                    <td>{{player.score}}</td>
-                </tr>
-            </table>
-        </transition>
         <button class="btn" @click="showScores()">
             {{showingScores ? 'Go back' : 'Show all scores'}}
         </button>
