@@ -6,7 +6,6 @@
   },
   "scripts": {
     "start": "parcel index.html",
-    "help": "parcel --help",
     "prod": "parcel build index.html --no-cache -d ./docs --public-url ./"
   },
   "dependencies": {
