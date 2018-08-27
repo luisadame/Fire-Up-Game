@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Fire Up</title>
     <link rel="stylesheet" href="./scss/main.scss">
 </head>
 
@@ -24,7 +24,7 @@
                     </div>
                     <button v-show="!player.lost" class="btn" :disabled="!validName()" @click="init()">Start game</button>
                     <div v-show="player.lost" class="playerScore">
-                        <p>Max. Score: {{getMaxScore()}}</p>
+                        <p>Max. Score: {{maxScore()}}</p>
                         <p>Current Score: {{player.score}}</p>
                     </div>
                     <button @click="restart()" v-show="player.lost" class="btn">Restart game?</button>
@@ -33,10 +33,10 @@
             <transition name="slide-right">
                 <table border="1" class="scores" v-show="showingScores">
                     <tr>
-                        <td>Player</td>
-                        <td>Score</td>
+                        <th>Player</th>
+                        <th>Score</th>
                     </tr>
-                    <tr v-for="player in getAllScores()">
+                    <tr v-for="player in allScores()">
                         <td>{{player.name}}</td>
                         <td>{{player.score}}</td>
                     </tr>
