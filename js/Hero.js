@@ -13,7 +13,6 @@ let Hero = {
     level: 1,
     shootingSpeed: function () {
         let v = 705 - (this.level * 10);
-        console.log(v);
         return v;
     },
     draw: function () {
