@@ -1,5 +1,5 @@
 // COLORS
-$color1: rgba( 89, 42,113,1);	/* Main Primary color */
+$color1: rgba( 89, 42,113,1);
 $color2: rgba(152,116,170,1);
 $color3: rgba(119, 74,142,1);
 $color4: rgba( 62, 18, 85,1);
@@ -61,8 +61,11 @@ body {
             box-shadow: 0 0 5em $color5;
             position: relative;
             width: 370px;
-            min-height: 330px;
-            transition: all 1s ease;
+            max-height: 330px;
+            transition: max-height 200ms ease;
+            &.expanded {
+                max-height: 500px;
+            }
         }
 
         .playerName {

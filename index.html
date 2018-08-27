@@ -11,7 +11,7 @@
 
 <body>
     <canvas id="canvas"></canvas>
-    <div id="wall" v-show="!player.playing" v-cloak>
+    <div id="wall" v-show="!player.playing" :class="{expanded: showingScores}" v-cloak>
         <h2>{{ message }}</h2>
         <div class="container" :class="{'slide-left': showingScores}">
             <div class="wall__info">
@@ -28,7 +28,7 @@
                 </div>
                 <button @click="restart()" v-show="player.lost" class="btn">Restart game?</button>
             </div>
-            <table border="1" class="scores" v-if="allScores().length">
+            <table border="1" class="scores" :class="{hidden: !showingScores}" v-if="allScores().length">
                 <tr>
                     <th>Player</th>
                     <th>Score</th>
