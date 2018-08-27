@@ -95,7 +95,7 @@ new Vue({
                 this.message = "Welcome to Fire Up Game!";
                 this.showingScores = false;
             } else {
-                this.message = "Global Scores";
+                this.message = "Scoreboard";
                 this.showingScores = true;
             }
         }

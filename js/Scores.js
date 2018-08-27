@@ -26,6 +26,7 @@ Scores.prototype.zip = function () {
             score: scores[name]
         })
     }
+    zipped.sort((a, b) => +b.score - +a.score);
     return zipped;
 }
 
