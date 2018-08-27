@@ -28,7 +28,7 @@
                 </div>
                 <button @click="restart()" v-show="player.lost" class="btn">Restart game?</button>
             </div>
-            <table border="1" class="scores">
+            <table border="1" class="scores" v-if="allScores().length">
                 <tr>
                     <th>Player</th>
                     <th>Score</th>
@@ -38,6 +38,9 @@
                     <td>{{player.score}}</td>
                 </tr>
             </table>
+            <div class="noscores" v-else>
+                There are no scores :(
+            </div>
         </div>
         <button class="btn" @click="showScores()">
             {{showingScores ? 'Go back' : 'Show all scores'}}

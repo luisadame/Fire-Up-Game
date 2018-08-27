@@ -96,16 +96,25 @@ body {
             position: absolute;
         }
 
+        .noscores {
+            flex: 1 0 100%;
+            font-size: 20px;
+            text-align: center;
+            color: gray;
+        }
+
         .container {
             display: flex;
             align-items: center;
             width: 100%;
             transition: all 150ms ease;
+            backface-visibility: hidden;
             &.slide-left {
-                transform: translateX(calc(-100% - 2em));
+                transform: translate3d(calc(-100% - 2em), 0, 0);
             }
         }
 
         .scores {
             width: 100%;
+            margin-bottom: 1em;
         }

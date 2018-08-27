@@ -19,6 +19,7 @@ Scores.prototype.get = function (name) {
 Scores.prototype.zip = function () {
     let zipped = [];
     const scores = this.all();
+    if (!scores) return zipped;
     for (let name of Object.keys(scores)) {
         zipped.push({
             name: name,
