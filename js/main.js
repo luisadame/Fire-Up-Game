@@ -7,6 +7,7 @@ import Collisions from './Collisions';
 import { addEventListeners } from './Controls';
 import player from './Player';
 import Vue from 'vue/dist/vue.esm';
+import Scores from './Scores';
 
 let game = {
     message: "Welcome to Fire Up Game!",
@@ -43,17 +44,6 @@ function draw() {
     Draw.level();
 }
 
-function setRecord() {
-    let saved;
-    if (saved = localStorage.getItem(player.name)) {
-        if (player.score > saved) {
-            localStorage.setItem(player.name, player.score);
-        }
-    } else {
-        localStorage.setItem(player.name, player.score);
-    }
-}
-
 // game loop
 function loop() {
     draw();
@@ -63,7 +53,7 @@ function loop() {
         game.message = "You lost!";
         player.playing = false;
         player.lost = true;
-        setRecord();
+        new Scores().set(player.name, player.score);
     } else {
         window.game = requestAnimationFrame(loop);
     }
@@ -89,24 +79,16 @@ new Vue({
     el: '#wall',
     data: game,
     methods: {
+        init: init,
+        restart: restart,
         validName: function () {
             return !!player.name;
         },
-        init: init,
-        restart: restart,
-        getMaxScore: function () {
-            return localStorage.getItem(this.player.name);
+        maxScore: function () {
+            return (new Scores()).get(player.name);
         },
-        getAllScores: function () {
-            let scores = [],
-                names = Object.keys(localStorage);
-            for (let name of names) {
-                scores.push({
-                    name: name,
-                    score: localStorage.getItem(name)
-                });
-            }
-            return scores;
+        allScores: function () {
+            return (new Scores()).zip();
         },
         showScores: function () {
             if (this.showingScores) {
