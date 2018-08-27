@@ -38,10 +38,13 @@ body {
             font-weight: bold;
             cursor: pointer;
             transition: all 250ms ease;
-            &[disabled] {
+            &:disabled, &:disabled:hover, &:disabled:focus {
                 background: #62476f;
                 color: #908e8e;
                 box-shadow: inset 0 4px 0 0 #715a7d;
+            }
+            &:hover, &:focus {
+                background: $color3;
             }
         }
 
